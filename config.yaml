@@ -1,0 +1,19 @@
+bootstrapServers:
+    - kafka:9092
+schemaRegistry: http://schema-registry:8081
+producers:
+#    - id: json-producer
+#      type: JSON
+#      topic: json-topic
+#      frequency: 5
+#      template: ./templates/template-1.json
+    - id: avro-producer
+      type: AVRO
+      topic: avro-topic
+      frequency: 2
+      template: ./templates/template-1.json
+#    - id: protobuf-producer
+#      type: PROTOBUF
+#      topic: protobuf-topic
+#      frequency: 1
+#      template: ./templates/template-1.json

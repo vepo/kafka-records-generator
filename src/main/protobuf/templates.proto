@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+option java_package = "io.vepo.kafka.records.generator.templates.proto";
+option java_multiple_files = false;
+option java_outer_classname = "Templates";
+
+message Template1 {
+	int64 id = 1;
+	string username = 2;
+	string email = 3;
+}

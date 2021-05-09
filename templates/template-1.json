@@ -1,0 +1,5 @@
+{
+	"id": $index,
+	"username": "user-$index",
+	"email": "user-$index@mail.com"
+}
