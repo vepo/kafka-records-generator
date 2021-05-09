@@ -31,21 +31,19 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.yaml.snakeyaml.Yaml;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.confluent.kafka.serializers.KafkaAvroSerializer;
 import io.confluent.kafka.serializers.KafkaJsonSerializer;
 import io.confluent.kafka.serializers.protobuf.KafkaProtobufSerializer;
-import io.vepo.kafka.records.generator.templates.proto.Templates;
 import io.vepo.kafka.records.generator.templates.Template1;
+import io.vepo.kafka.records.generator.templates.proto.Templates;
 
 public class RecordGenerator {
     private static final AtomicBoolean running = new AtomicBoolean(true);
     private final static Logger logger = LoggerFactory.getLogger(RecordGenerator.class);
 
     public static void main(String[] args) throws FileNotFoundException, InterruptedException {
-
 	Yaml yaml = new Yaml();
 	var config = yaml.loadAs(new FileInputStream(Paths.get(".", "config.yaml").toFile()), Config.class);
 
@@ -138,7 +136,7 @@ public class RecordGenerator {
 		var json = objectMapper
 			.readTree(templateContent.replaceAll(Pattern.quote("$index"), Integer.toString(index)));
 		if (type == SerializerType.PROTOBUF) {
-		    return Templates.Template1.newBuilder().setId(json.get("id").asLong())
+		    return Templates.TemplateProto1.newBuilder().setId(json.get("id").asLong())
 			    .setEmail(json.get("email").asText()).setUsername(json.get("username").asText()).build();
 		} else if (type == SerializerType.AVRO) {
 		    Schema.Parser parser = new Schema.Parser();
@@ -146,8 +144,8 @@ public class RecordGenerator {
 			    .parse(RecordGenerator.class.getResourceAsStream("/avro-schemas/template-1.json"));
 		    GenericRecord record = new GenericData.Record(schema);
 		    record.put("id", json.get("id").asLong());
-		    record.put("username", json.get("username").asLong());
-		    record.put("email", json.get("email").asLong());
+		    record.put("username", json.get("username").asText());
+		    record.put("email", json.get("email").asText());
 		    return record;
 		} else {
 		    return new Template1(json.get("id").asLong(), json.get("username").asText(),

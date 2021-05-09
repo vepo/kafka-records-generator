@@ -100,6 +100,9 @@
 				<artifactId>exec-maven-plugin</artifactId>
 				<version>3.0.0</version>
 				<configuration>
+					<arguments>
+						<argument>-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=*:5555</argument>
+					</arguments>
 					<mainClass>io.vepo.kafka.records.generator.RecordGenerator</mainClass>
 				</configuration>
 			</plugin>
